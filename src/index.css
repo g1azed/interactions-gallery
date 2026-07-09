@@ -1,0 +1,441 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Noto Sans KR', sans-serif;
+  background: #f6f7f9;
+  color: #121212;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Gallery ---------- */
+.gallery { max-width: 1200px; margin: 0 auto; padding: 56px 24px 80px; }
+.gallery-header { margin-bottom: 40px; }
+.eyebrow {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #1c72f2; margin-bottom: 10px;
+}
+.gallery-header h1 { font-size: 44px; letter-spacing: -0.02em; margin-bottom: 12px; }
+.gallery-header .sub { color: #555; max-width: 560px; line-height: 1.6; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.card {
+  text-align: left; border: 1px solid #e5e7eb; border-radius: 16px;
+  background: #fff; overflow: hidden; padding: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+.card-thumb {
+  height: 120px; display: flex; align-items: center; justify-content: center;
+}
+.card-emoji { font-size: 42px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25)); }
+.card-body { padding: 16px 18px 18px; }
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.card-body h3 { font-size: 16px; }
+.card-body p { font-size: 13px; color: #666; line-height: 1.55; margin: 8px 0 12px; }
+.src-badge {
+  font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px;
+  background: #eef2ff; color: #4338ca; white-space: nowrap;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 11px; color: #475569; background: #f1f5f9;
+  border-radius: 6px; padding: 3px 7px;
+}
+.gallery-footer { margin-top: 48px; font-size: 12px; color: #94a3b8; }
+
+/* ---------- Demo page ---------- */
+.demo-page { height: 100vh; display: flex; flex-direction: column; }
+.demo-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 20px; background: #fff; border-bottom: 1px solid #e5e7eb;
+  z-index: 50;
+}
+.demo-header h2 { font-size: 17px; }
+.demo-header p { font-size: 12px; color: #888; margin-top: 2px; }
+.demo-header > div { flex: 1; }
+.back-btn {
+  border: 1px solid #d1d5db; background: #fff; border-radius: 8px;
+  padding: 8px 14px; font-size: 13px; font-weight: 600;
+}
+.back-btn:hover { background: #f3f4f6; }
+.demo-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+
+/* scrollable demo container helper */
+.scroll-area {
+  height: 100%; overflow-y: auto; overflow-x: hidden; position: relative;
+}
+
+/* ---------- 1. HorizonScroll ---------- */
+.hs-intro, .hs-outro {
+  height: 60vh; display: flex; align-items: center; justify-content: center;
+  color: #64748b; font-size: 14px;
+}
+.hs-sticky-wrap { position: relative; }
+.hs-sticky {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  background: #0f172a;
+}
+.hs-track { display: flex; gap: 24px; padding: 0 8vw; will-change: transform; }
+.hs-panel {
+  flex: 0 0 auto; width: 420px; height: 55vh; border-radius: 20px;
+  display: flex; align-items: flex-end; padding: 24px;
+  color: #fff; font-size: 22px; font-weight: 700;
+}
+.hs-indicator {
+  position: absolute; left: 8vw; right: 8vw; bottom: 40px;
+  height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px;
+}
+.hs-indicator-progress { height: 100%; background: #8CE457; border-radius: 2px; }
+
+/* ---------- 2. TextReveal (hallym main.html 히어로 원본 이식) ---------- */
+.tr-wrap { background: #000; color: #fff; }
+.tr-sticky {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+}
+/* bg_video: scale(0.3) → 1, brightness 40% (원본 keyframes scale-up) */
+.tr-bg-video {
+  position: absolute; inset: 0; overflow: hidden;
+  transform: scale(0.3);
+  animation: tr-scale-up 1s 1.5s 1 ease-in-out forwards;
+  filter: brightness(40%);
+}
+.tr-bg-video video {
+  position: absolute; width: 100%; height: 100%; object-fit: cover;
+}
+@keyframes tr-scale-up {
+  100% { transform: scale(1); }
+}
+/* horizon_container: 100% 패널 2개 가로 배치 */
+.tr-horizon {
+  position: relative; display: flex; height: 100%;
+}
+.tr-list {
+  min-width: 100%; height: 100%;
+  display: flex; justify-content: center; align-items: flex-end;
+  padding-bottom: 5.9vw; overflow: hidden;
+}
+/* All New Hallym — Viga, 12.91vw */
+.tr-allnew {
+  font-family: 'Viga', serif;
+  font-size: 12.91vw; font-weight: 400; line-height: 12.91vw;
+  letter-spacing: -0.02em; color: #fff; white-space: pre;
+  opacity: 0;
+  will-change: transform, clip-path;
+}
+/* 원본 keyframes allnewText */
+@keyframes tr-allnew-in {
+  0% {
+    transform: translateY(-100px);
+    clip-path: inset(0% 0% 100% 0%);
+    opacity: 0;
+  }
+  50% { opacity: 0; }
+  100% {
+    transform: translateY(0);
+    clip-path: inset(0% 0% 0% 0%);
+    opacity: 1;
+  }
+}
+/* 대학의 미래를 열다 — IBM Plex Sans KR, 11.45vw */
+.tr-hallym {
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-size: 11.45vw; font-weight: 700; line-height: 11.45vw;
+  letter-spacing: -0.02em; color: #fff; white-space: pre;
+  will-change: transform, clip-path;
+}
+/* indicator_bar_wrap */
+.tr-indicator-wrap { position: absolute; left: 0; right: 0; bottom: 0; }
+.tr-indicator-bar {
+  position: absolute; bottom: 5.78vw; left: 8.25vw; right: 8.25vw;
+  height: 1px; background-color: #6e6e6e; border-radius: 1px; overflow: hidden;
+}
+.tr-indicator-progress {
+  height: 100%; background-color: #fff; width: 0%;
+  transition: width 0.1s ease;
+}
+.tr-indicator-text {
+  position: absolute; bottom: 3vw; left: 9.25vw; right: 9.25vw;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-size: 0.93vw; font-weight: 700; line-height: 1.35vw;
+  letter-spacing: -0.02em; color: #fff;
+}
+.tr-indicator-text p:nth-child(2) { padding-right: 20vw; }
+
+/* ---------- 3. ScrollGrowImage (hallym vision.html 원본 이식) ---------- */
+.sg-wrap { background: #fff; }
+.sg-section1 { position: relative; padding-top: 8vw; padding-bottom: 10vw; }
+/* v_sec1_text: sticky, 이미지 위에 겹침 */
+.sg-sticky-text {
+  position: sticky; top: 12.5vw; padding-left: 6.25vw; z-index: 1;
+  height: 0; /* 이미지가 텍스트 아래 공간을 차지하도록 */
+}
+.sg-t-black { color: #000; }
+.sg-t-white { position: absolute; top: 0; color: #fff; z-index: 1; }
+.sg-t-white .sg-main80 { color: #fff; }
+.sg-main80 {
+  font-family: 'IBM Plex Sans KR', serif; font-weight: 900;
+  font-size: 4.16vw; line-height: 6.25vw; color: #000;
+}
+.sg-sub18 {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-weight: 500; font-size: 0.93vw; line-height: 1.35vw;
+}
+/* scrolling_img_Wrap */
+.sg-img-wrap {
+  display: block; overflow: hidden; margin: 18vw auto 0; max-width: 100%;
+  position: relative; will-change: width, height, transform;
+}
+.sg-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover; position: relative;
+}
+.sg-section2 { margin-top: 700px; padding: 0 6.25vw 30vh 50%; }
+.sg-sub32 {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-weight: 700; font-size: 1.66vw; line-height: 2.58vw;
+}
+
+/* ---------- 4. CenterCarousel ---------- */
+.cc-wrap {
+  height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; background: #f1f5f9; gap: 28px;
+  overflow: hidden;
+}
+.cc-viewport { width: 100%; overflow: hidden; }
+.cc-track {
+  display: flex; gap: 24px; transition: transform 0.55s cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+.cc-slide {
+  flex: 0 0 auto; width: 380px; height: 340px; border-radius: 18px;
+  position: relative; overflow: hidden;
+  transform: scale(0.88); transition: transform 0.55s ease;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.9); font-size: 40px; font-weight: 800;
+}
+.cc-slide.center { transform: scale(1); }
+.cc-caption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 18px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: #fff; font-size: 15px; font-weight: 600;
+  opacity: 0; transform: translateY(8px); transition: all 0.4s ease 0.15s;
+}
+.cc-slide.center .cc-caption { opacity: 1; transform: translateY(0); }
+.cc-controls { display: flex; gap: 12px; align-items: center; }
+.cc-arrow {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid #cbd5e1;
+  background: #fff; font-size: 18px;
+}
+.cc-arrow:hover { background: #121212; color: #fff; }
+.cc-dots { display: flex; gap: 6px; }
+.cc-dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; border: none; padding: 0; }
+.cc-dot.on { background: #121212; }
+
+/* ---------- 5. DragCarousel ---------- */
+.dc-wrap {
+  height: 100%; display: flex; flex-direction: column; justify-content: center;
+  background: #fff7ed; gap: 20px; overflow: hidden;
+}
+.dc-viewport { overflow: hidden; cursor: grab; padding: 0 40px; }
+.dc-viewport.dragging { cursor: grabbing; }
+.dc-track { display: flex; gap: 20px; will-change: transform; }
+.dc-cell {
+  flex: 0 0 auto; width: 300px; height: 300px; border-radius: 16px;
+  display: flex; align-items: flex-end; padding: 18px;
+  color: #fff; font-weight: 700; user-select: none;
+}
+.dc-hint { text-align: center; color: #9a3412; font-size: 13px; }
+
+/* ---------- 6. MoreView ---------- */
+.mv-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
+.mv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mv-item {
+  aspect-ratio: 4/3; border-radius: 12px; display: flex;
+  align-items: center; justify-content: center; color: #fff;
+  font-weight: 700; font-size: 14px;
+  animation: mv-in 0.5s ease both;
+}
+@keyframes mv-in { from { opacity: 0; transform: translateY(16px); } }
+.mv-btn {
+  display: block; margin: 32px auto 0; padding: 14px 40px;
+  border: 1px solid #121212; background: #fff; border-radius: 99px;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+}
+.mv-btn:hover { background: #121212; color: #fff; }
+
+/* ---------- 7. InteractiveMap ---------- */
+.im-wrap { display: flex; height: 100%; }
+.im-map {
+  flex: 1; position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 70% 20%, #dbeafe 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, #dcfce7 0%, transparent 40%),
+    #eff6ff;
+}
+.im-road { position: absolute; background: #cbd5e1; }
+.im-marker {
+  position: absolute; width: 44px; height: 44px; border-radius: 50% 50% 50% 0;
+  background: #1c72f2; transform: rotate(-45deg); border: 3px solid #fff;
+  box-shadow: 0 6px 14px rgba(28,114,242,0.4); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.im-marker span { transform: rotate(45deg); font-size: 18px; }
+.im-hover-card {
+  position: absolute; transform: translate(-50%, -130%);
+  background: #fff; border-radius: 12px; padding: 12px 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18); width: 200px;
+  pointer-events: none; z-index: 5;
+}
+.im-hover-card .thumb {
+  height: 90px; border-radius: 8px; margin-bottom: 8px;
+  background: linear-gradient(135deg, #1c72f2, #67e8f9);
+}
+.im-hover-card p { font-size: 13px; font-weight: 700; }
+.im-hover-card small { font-size: 11px; color: #888; }
+.im-aside { width: 240px; background: #fff; border-left: 1px solid #e5e7eb; padding: 20px; }
+.im-aside h4 { font-size: 14px; margin-bottom: 14px; color: #475569; }
+.im-aside-btn {
+  display: block; width: 100%; text-align: left; padding: 12px 14px;
+  margin-bottom: 8px; border: 1px solid #e2e8f0; border-radius: 10px;
+  background: #fff; color: #121212; font-size: 13px; font-weight: 600;
+  transition: all 0.15s ease;
+}
+.im-aside-btn.active { background: #1c72f2; color: #fff; border-color: #1c72f2; }
+.im-popup-backdrop {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center; z-index: 10;
+  cursor: pointer;
+}
+.im-popup {
+  background: #fff; border-radius: 16px; padding: 28px; width: 320px;
+  text-align: center;
+}
+.im-popup .thumb {
+  height: 140px; border-radius: 12px; margin-bottom: 16px;
+  background: linear-gradient(135deg, #1c72f2, #a5f3fc);
+}
+.im-popup h3 { margin-bottom: 8px; }
+.im-popup p { font-size: 13px; color: #666; line-height: 1.5; }
+
+/* ---------- 8. Cylinder3D (good-portfolio index.html 원본 이식) ---------- */
+.cy-stage {
+  height: 100%; background: #fff; overflow: hidden; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+/* .carousel-container */
+.cy-container {
+  width: 100%; height: 500px;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 1200px; perspective-origin: 50% 50%;
+}
+/* .carousel-wrapper: 사용자가 잡아둔 시점 그대로 */
+.cy-wrapper {
+  position: relative; transform-style: preserve-3d;
+  transform: translateZ(910px) rotateY(30deg) rotateZ(6deg);
+  will-change: transform;
+}
+/* .carousel */
+.cy-carousel {
+  position: relative; width: 300px; height: 300px;
+  transform-style: preserve-3d;
+  transition: transform 2s ease-out; /* 원본 1s → 2배 느리게 */
+}
+/* .carousel__cell */
+.cy-cell {
+  position: absolute; width: 200px; height: 200px;
+  background: rgba(255, 255, 255, 0.9);
+  text-align: center; font-size: 30px; font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.cy-hint {
+  position: absolute; bottom: 28px; left: 0; right: 0; text-align: center;
+  color: #6e6e6e; font-size: 13px; letter-spacing: 0.06em;
+}
+
+/* ---------- 9. HoverFollower ---------- */
+.hf-wrap { max-width: 900px; margin: 0 auto; padding: 48px 32px; }
+.hf-row {
+  position: relative; display: flex; justify-content: space-between;
+  align-items: center; padding: 26px 12px; border-bottom: 1px solid #e2e8f0;
+  overflow: hidden; cursor: pointer;
+}
+.hf-row h3 { font-size: 22px; font-weight: 800; }
+.hf-row .meta { font-size: 13px; color: #94a3b8; }
+.hf-preview {
+  position: absolute; width: 180px; height: 120px; border-radius: 12px;
+  pointer-events: none; z-index: 3;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+}
+
+/* ---------- 10. FilterGallery ---------- */
+.fg-wrap { max-width: 1100px; margin: 0 auto; padding: 36px 24px 60px; }
+.fg-toolbar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
+.fg-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.fg-filter {
+  padding: 9px 18px; border-radius: 99px; border: 1px solid #121212;
+  background: #fff; font-size: 13px; font-weight: 600;
+}
+.fg-filter.active { background: #8CE457; border-color: #8CE457; }
+.fg-layouts { display: flex; gap: 6px; }
+.fg-layout-btn {
+  width: 38px; height: 38px; border-radius: 8px; border: 1px solid #cbd5e1;
+  background: #fff; font-size: 15px;
+}
+.fg-layout-btn.on { background: #121212; color: #fff; border-color: #121212; }
+.fg-gal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fg-gal-item { border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid #e5e7eb; }
+.fg-gal-img { aspect-ratio: 16/10; position: relative; }
+.fg-gal-hover {
+  position: absolute; inset: 0; background: rgba(140,228,87,0.9);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; opacity: 0; transition: opacity 0.25s ease;
+}
+.fg-gal-item:hover .fg-gal-hover { opacity: 1; }
+.fg-gal-text { padding: 14px 16px; }
+.fg-gal-text .t { font-weight: 700; font-size: 14px; }
+.fg-gal-text .c { font-size: 12px; color: #888; margin-top: 3px; }
+.fg-list-row {
+  display: grid; grid-template-columns: 70px 1fr 160px 120px 60px;
+  align-items: center; gap: 12px; padding: 18px 8px;
+  border-bottom: 1px solid #e2e8f0; font-size: 14px;
+}
+.fg-list-row .y { color: #94a3b8; font-size: 13px; }
+.fg-list-row .t { font-weight: 700; }
+.fg-list-row .f, .fg-list-row .cat { color: #64748b; font-size: 13px; }
+.fg-award { font-size: 16px; }
+.fg-more {
+  display: block; margin: 30px auto 0; padding: 13px 44px;
+  border: 1px solid #121212; border-radius: 99px; background: #fff;
+  font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+}
+.fg-more:hover { background: #121212; color: #fff; }
+.fg-empty { text-align: center; color: #94a3b8; padding: 60px 0; }
+
+/* ---------- three.js demos ---------- */
+.three-wrap { position: relative; height: 100%; background: #000; }
+.three-canvas-holder { position: absolute; inset: 0; }
+.three-canvas-holder canvas { display: block; width: 100%; height: 100%; }
+.three-scroll {
+  position: absolute; inset: 0; overflow-y: auto; z-index: 2;
+}
+.three-scroll-inner { height: 350vh; }
+.three-hint {
+  position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;
+  color: rgba(255,255,255,0.6); font-size: 13px; z-index: 3; pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .fg-gal { grid-template-columns: 1fr 1fr; }
+  .mv-grid { grid-template-columns: 1fr 1fr; }
+  .im-aside { display: none; }
+  .fg-list-row { grid-template-columns: 60px 1fr 80px; }
+  .fg-list-row .f, .fg-list-row .fg-award { display: none; }
+}
